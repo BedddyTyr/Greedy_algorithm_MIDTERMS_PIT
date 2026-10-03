@@ -328,19 +328,19 @@ def main() -> None:
     final_cost = route_cost(final, matrix)
 
     print("\n" + "=" * 50)
-    print("OPTIMISED ROUTE")
+    print("GREEDY ROUTE (this is the route shown on the map)")
     print("=" * 50)
-    for step, idx in enumerate(final):
+    for step, idx in enumerate(greedy):
         print(f"{'Start' if step == 0 else f'Stop {step}'}: {locations[idx]}")
-    print(f"End:   {locations[final[0]]} (back to start)")
+    print(f"End:   {locations[greedy[0]]} (back to start)")
     print("-" * 50)
-    print(f"Greedy tour:   {format_cost(greedy_cost, metric)}")
-    print(f"After 2-opt:   {format_cost(final_cost, metric)}")
+    print(f"Greedy tour (on map):      {format_cost(greedy_cost, metric)}")
+    print(f"After 2-opt (not on map):  {format_cost(final_cost, metric)}")
     print("=" * 50)
 
     try:
         print("\nBuilding route map...")
-        map_path = build_map(client, final, locations, coords, matrix, metric)
+        map_path = build_map(client, greedy, locations, coords, matrix, metric)
         serve_map(map_path)
     except ImportError:
         print("Map skipped: install folium with 'pip install folium'.")
